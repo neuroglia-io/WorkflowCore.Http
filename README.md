@@ -55,17 +55,17 @@ builder.StartWith(context =>
             .StartWith(context => Console.WriteLine("Saga started"))
             .Then<SendHttpRequest>(setup =>
             {
-                setup.Input(s => s.Method, data => HttpMethod.Post);
-                setup.Input(s => s.Uri, data => "http://localhost/workflow/execute");
-                setup.Input(s => s.RetryPolicy, data => Policy
+                setup.Input(step => step.Method, data => HttpMethod.Post);
+                setup.Input(step => step.Uri, data => "http://localhost/workflow/execute");
+                setup.Input(step => step.RetryPolicy, data => Policy
                     .Handle<HttpRequestException>(ex => ex.Message.Contains("400"))
                     .RetryAsync(4, (ex, attempts) => Console.WriteLine($"Attempt n°{attempts}")));
-                setup.Input(s => s.Content, data => new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, MediaTypeNames.Application.Json));
+                setup.Input(step => step.Content, data => new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, MediaTypeNames.Application.Json));
             })
                 .CompensateWith<SendHttpRequest>(setup =>
                     {
-                        setup.Input(s => s.Method, s => HttpMethod.Get);
-                        setup.Input(s => s.Uri, s => "http://localhost:56832/workflow/compensate");
+                        setup.Input(step => step.Method, data => HttpMethod.Get);
+                        setup.Input(step => step.Uri, data => "http://localhost:56832/workflow/compensate");
                     })
             .Then<ReceiveHttpRequest>(setup =>
             {
