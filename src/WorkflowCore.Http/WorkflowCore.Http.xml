@@ -1,0 +1,323 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WorkflowCore.Http</name>
+    </assembly>
+    <members>
+        <member name="T:WorkflowCore.Http.IApplicationBuilderExtensions">
+            <summary>
+            Defines extensions for <see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/>s
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.IApplicationBuilderExtensions.UseHttpWorkflow(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Uses the <see cref="T:WorkflowCore.Http.Services.HttpRequestAwaiterMiddleware"/> to enable the use of the <see cref="T:WorkflowCore.Http.Primitives.ReceiveHttpRequest"/> <see cref="T:WorkflowCore.Interface.IStepBody"/>
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="T:WorkflowCore.Http.IServiceCollectionExtensions">
+            <summary>
+            Defines extensions for <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>s
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.IServiceCollectionExtensions.AddHttpWorkflow(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds and configures all http services for the WorkflowCore workflow engine
+            </summary>
+            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> to configure</param>
+            <returns>The configured <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></returns>
+        </member>
+        <member name="T:WorkflowCore.Http.Primitives.HttpContentExtensions">
+            <summary>
+            Defines extensions for <see cref="T:System.Net.Http.HttpContent"/>s
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Primitives.HttpContentExtensions.CloneAsync(System.Net.Http.HttpContent)">
+            <summary>
+            Clones the <see cref="T:System.Net.Http.HttpContent"/>
+            </summary>
+            <param name="source">The <see cref="T:System.Net.Http.HttpContent"/> to clone</param>
+            <returns>A new clone of the <see cref="T:System.Net.Http.HttpContent"/></returns>
+        </member>
+        <member name="T:WorkflowCore.Http.Primitives.HttpRequestAwaiter">
+            <summary>
+            Represents the default implementation of the <see cref="T:WorkflowCore.Http.Primitives.IHttpRequestAwaiter"/> interface
+            </summary>
+        </member>
+        <member name="E:WorkflowCore.Http.Primitives.HttpRequestAwaiter.Disposed">
+            <inheritdoc/>
+        </member>
+        <member name="M:WorkflowCore.Http.Primitives.HttpRequestAwaiter.#ctor(System.Net.Http.HttpMethod,System.String,WorkflowCore.Http.Services.IHttpRequestCorrelationIdResolver,System.String)">
+            <summary>
+            Initializes a new <see cref="T:WorkflowCore.Http.Primitives.HttpRequestAwaiter"/>
+            </summary>
+            <param name="method">The <see cref="T:System.Net.Http.HttpMethod"/> of the <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/> to await</param>
+            <param name="path">The path of the <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/> to await</param>
+            <param name="correlationIdResolver"></param>
+            <param name="correlationId"></param>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.HttpRequestAwaiter.Method">
+            <inheritdoc/>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.HttpRequestAwaiter.Path">
+            <inheritdoc/>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.HttpRequestAwaiter.CorrelationIdResolver">
+            <inheritdoc/>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.HttpRequestAwaiter.CorrelationId">
+            <inheritdoc/>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.HttpRequestAwaiter.TaskCompletionSource">
+            <summary>
+            Gets the <see cref="T:System.Threading.Tasks.TaskCompletionSource`1"/> used to await incoming <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/>s
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Primitives.HttpRequestAwaiter.Matches(Microsoft.AspNetCore.Http.HttpRequest)">
+            <inheritdoc/>
+        </member>
+        <member name="M:WorkflowCore.Http.Primitives.HttpRequestAwaiter.Set(Microsoft.AspNetCore.Http.HttpRequest)">
+            <inheritdoc/>
+        </member>
+        <member name="M:WorkflowCore.Http.Primitives.HttpRequestAwaiter.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="T:WorkflowCore.Http.Primitives.IHttpRequestAwaiter">
+            <summary>
+            Defines the fundamentals of an object used to await an <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/>
+            </summary>
+        </member>
+        <member name="E:WorkflowCore.Http.Primitives.IHttpRequestAwaiter.Disposed">
+            <summary>
+            Represents the event fired whenever the <see cref="T:WorkflowCore.Http.Primitives.IHttpRequestAwaiter"/> has been disposed of
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.IHttpRequestAwaiter.Method">
+            <summary>
+            Gets the <see cref="T:System.Net.Http.HttpMethod"/> of the <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/> to await
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.IHttpRequestAwaiter.Path">
+            <summary>
+            Gets the path of the <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/> to await
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.IHttpRequestAwaiter.CorrelationIdResolver">
+            <summary>
+            Gets the service used to resolve a correlation id from incoming <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/>s
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.IHttpRequestAwaiter.CorrelationId">
+            <summary>
+            Gets the correlation id to match, if any
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Primitives.IHttpRequestAwaiter.Matches(Microsoft.AspNetCore.Http.HttpRequest)">
+            <summary>
+            Gets a boolean indicating whether or not the specified <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/> matches the <see cref="T:WorkflowCore.Http.Primitives.IHttpRequestAwaiter"/>
+            </summary>
+            <param name="request">The <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/> to check</param>
+            <returns>A boolean indicating whether or not the specified <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/> matches the <see cref="T:WorkflowCore.Http.Primitives.IHttpRequestAwaiter"/></returns>
+        </member>
+        <member name="M:WorkflowCore.Http.Primitives.IHttpRequestAwaiter.Set(Microsoft.AspNetCore.Http.HttpRequest)">
+            <summary>
+            Sets the awaited <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/>, thus completing the associated <see cref="T:WorkflowCore.Http.Primitives.ReceiveHttpRequest"/> step
+            </summary>
+            <param name="request">The received <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/></param>
+        </member>
+        <member name="T:WorkflowCore.Http.Primitives.ReceiveHttpRequest">
+            <summary>
+            Represents the <see cref="T:WorkflowCore.Interface.IStepBody"/> used to await for an incoming <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/>
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Primitives.ReceiveHttpRequest.#ctor(WorkflowCore.Http.Services.IHttpRequestAwaiterManager)">
+            <summary>
+            Initializes a new <see cref="T:WorkflowCore.Http.Primitives.ReceiveHttpRequest"/>
+            </summary>
+            <param name="httpRequestAwaiterManager">The service used to manage <see cref="T:WorkflowCore.Http.Primitives.IHttpRequestAwaiter"/>s</param>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.ReceiveHttpRequest.HttpRequestAwaiterManager">
+            <summary>
+            Gets the service used to manage <see cref="T:WorkflowCore.Http.Primitives.IHttpRequestAwaiter"/>s
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.ReceiveHttpRequest.Method">
+            <summary>
+            Gets/sets the <see cref="T:System.Net.Http.HttpMethod"/> of the <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/> to wait for
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.ReceiveHttpRequest.Path">
+            <summary>
+            Gets/sets the path requested by the <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/> to wait for
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.ReceiveHttpRequest.CorrelationIdResolver">
+            <summary>
+            Gets the service used to resolve a correlation id from the incoming <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/>
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.ReceiveHttpRequest.CorrelationId">
+            <summary>
+            Gets/sets the correlation id of to match with the <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/> to wait for
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.ReceiveHttpRequest.Request">
+            <summary>
+            Gets the awaited <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/>
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Primitives.ReceiveHttpRequest.RunAsync(WorkflowCore.Interface.IStepExecutionContext)">
+            <inheritdoc/>
+        </member>
+        <member name="T:WorkflowCore.Http.Primitives.SendHttpRequest">
+            <summary>
+            Represents an <see cref="T:WorkflowCore.Interface.IStepBody"/> used to send an <see cref="T:System.Net.Http.HttpRequestMessage"/>
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Primitives.SendHttpRequest.#ctor(System.Net.Http.IHttpClientFactory)">
+            <summary>
+            Initializes a new <see cref="T:WorkflowCore.Http.Primitives.SendHttpRequest"/>
+            </summary>
+            <param name="httpClientFactory">The service used to create <see cref="T:System.Net.Http.HttpClient"/>s</param>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.SendHttpRequest.HttpClient">
+            <summary>
+            Gets the <see cref="T:System.Net.Http.HttpClient"/> used to send <see cref="T:System.Net.Http.HttpRequestMessage"/>s
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.SendHttpRequest.Method">
+            <summary>
+            Gets/sets the <see cref="T:System.Net.Http.HttpMethod"/> of the <see cref="T:System.Net.Http.HttpRequestMessage"/> to send
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.SendHttpRequest.Uri">
+            <summary>
+            Gets/sets the <see cref="T:System.Uri"/> to request
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.SendHttpRequest.Headers">
+            <summary>
+            Gets/sets an <see cref="T:System.Action`1"/> used to configure the headers of the <see cref="T:System.Net.Http.HttpRequestMessage"/> to send
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.SendHttpRequest.Content">
+            <summary>
+            Gets/sets the <see cref="T:System.Net.Http.HttpContent"/> of the <see cref="T:System.Net.Http.HttpRequestMessage"/> to send
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.SendHttpRequest.RetryPolicy">
+            <summary>
+            Gets/sets an <see cref="T:Polly.Retry.AsyncRetryPolicy"/> to used when sending the <see cref="T:System.Net.Http.HttpRequestMessage"/>
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.SendHttpRequest.EnsureSuccessStatusCode">
+            <summary>
+            Gets/sets a boolean indicating whether or not to ensure that the response to the request has a success status code
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Primitives.SendHttpRequest.RunAsync(WorkflowCore.Interface.IStepExecutionContext)">
+            <inheritdoc/>
+        </member>
+        <member name="M:WorkflowCore.Http.Primitives.SendHttpRequest.RequestAsync">
+            <summary>
+            Sends the <see cref="T:System.Net.Http.HttpRequestMessage"/>
+            </summary>
+            <returns>The resulting <see cref="T:System.Net.HttpStatusCode"/></returns>
+        </member>
+        <member name="M:WorkflowCore.Http.Primitives.SendHttpRequest.Dispose">
+            <summary>
+            Disposes of the <see cref="T:WorkflowCore.Http.Primitives.SendHttpRequest"/>
+            </summary>
+        </member>
+        <member name="T:WorkflowCore.Http.Services.HttpRequestAwaiterManager">
+            <summary>
+            Represents the default implementation of the <see cref="T:WorkflowCore.Http.Services.IHttpRequestAwaiterManager"/> interface
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.HttpRequestAwaiterManager.#ctor">
+            <summary>
+            Initializes a new <see cref="T:WorkflowCore.Http.Services.HttpRequestAwaiterManager"/>
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Services.HttpRequestAwaiterManager.Awaiters">
+            <summary>
+            Gets an <see cref="T:System.Collections.Generic.IList`1"/> containing all registered <see cref="T:WorkflowCore.Http.Primitives.IHttpRequestAwaiter"/>s
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.HttpRequestAwaiterManager.WaitForAsync(System.Net.Http.HttpMethod,System.String,WorkflowCore.Http.Services.IHttpRequestCorrelationIdResolver,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.HttpRequestAwaiterManager.GetAwaitersFor(Microsoft.AspNetCore.Http.HttpRequest)">
+            <inheritdoc/>
+        </member>
+        <member name="T:WorkflowCore.Http.Services.HttpRequestAwaiterMiddleware">
+            <summary>
+            Represents the middleware used to await for incoming <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/>s
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.HttpRequestAwaiterMiddleware.#ctor(WorkflowCore.Http.Services.IHttpRequestAwaiterManager,Microsoft.AspNetCore.Http.RequestDelegate)">
+            <summary>
+            Initializes a new <see cref="T:WorkflowCore.Http.Services.HttpRequestAwaiterMiddleware"/>
+            </summary>
+            <param name="httpRequestAwaiterManager">The service used to manage <see cref="T:WorkflowCore.Http.Primitives.IHttpRequestAwaiter"/>s</param>
+            <param name="next">The next <see cref="T:Microsoft.AspNetCore.Http.RequestDelegate"/> in the pipeline</param>
+        </member>
+        <member name="P:WorkflowCore.Http.Services.HttpRequestAwaiterMiddleware.HttpRequestAwaiterManager">
+            <summary>
+            Gets the service used to manage <see cref="T:WorkflowCore.Http.Primitives.IHttpRequestAwaiter"/>s
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Services.HttpRequestAwaiterMiddleware.Next">
+            <summary>
+            Gets the next <see cref="T:Microsoft.AspNetCore.Http.RequestDelegate"/> in the pipeline
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.HttpRequestAwaiterMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
+            <inheritdoc/>
+        </member>
+        <member name="T:WorkflowCore.Http.Services.HttpRequestCorrelationIdResolver">
+            <summary>
+            Represents the default implementation of the <see cref="T:WorkflowCore.Http.Services.IHttpRequestCorrelationIdResolver"/><para></para>
+            The correlation id is resolved by looking up for an 'X-Correlation-Id' header in incoming <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/>s
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.HttpRequestCorrelationIdResolver.Resolve(Microsoft.AspNetCore.Http.HttpRequest)">
+            <inheritdoc/>
+        </member>
+        <member name="T:WorkflowCore.Http.Services.IHttpRequestAwaiterManager">
+            <summary>
+            Defines the fundamentals of a service used to manage <see cref="T:WorkflowCore.Http.Primitives.IHttpRequestAwaiter"/>s
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.IHttpRequestAwaiterManager.WaitForAsync(System.Net.Http.HttpMethod,System.String,WorkflowCore.Http.Services.IHttpRequestCorrelationIdResolver,System.String)">
+            <summary>
+            Waits for an incoming <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/>
+            </summary>
+            <param name="method">The <see cref="T:System.Net.Http.HttpMethod"/> of the <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/> to await</param>
+            <param name="path">The path requested by the <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/> to await</param>
+            <param name="correlationIdResolver">The service used to resolve the correlation id from incoming <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/>s</param>
+            <param name="correlationId">The correlation id to match</param>
+            <returns>The awaited <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/></returns>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.IHttpRequestAwaiterManager.GetAwaitersFor(Microsoft.AspNetCore.Http.HttpRequest)">
+            <summary>
+            Gets an <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing all the <see cref="T:WorkflowCore.Http.Primitives.IHttpRequestAwaiter"/>s that match the specified <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/>
+            </summary>
+            <param name="request">The <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/> to match</param>
+            <returns>A new <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing all the <see cref="T:WorkflowCore.Http.Primitives.IHttpRequestAwaiter"/>s that match the specified <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/></returns>
+        </member>
+        <member name="T:WorkflowCore.Http.Services.IHttpRequestCorrelationIdResolver">
+            <summary>
+            Defines the fundamentals of a service used to resolve a correlation id from an <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/>
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.IHttpRequestCorrelationIdResolver.Resolve(Microsoft.AspNetCore.Http.HttpRequest)">
+            <summary>
+            Resolves a correlation id from the specified <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/>
+            </summary>
+            <param name="request">The <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/> to resolve the correlation id from</param>
+            <returns>The resolved correlation id</returns>
+        </member>
+    </members>
+</doc>

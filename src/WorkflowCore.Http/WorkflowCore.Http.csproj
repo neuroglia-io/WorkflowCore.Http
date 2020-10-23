@@ -19,6 +19,7 @@
 
   <PropertyGroup>
     <DocumentationFile>WorkflowCore.Http.xml</DocumentationFile>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
