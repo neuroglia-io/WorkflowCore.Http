@@ -36,7 +36,6 @@ public class Startup
         {
             endpoints.MapControllers();
         });
-        workflowHost.RegisterWorkflow<CreateProjectSaga, MyData>();
         workflowHost.Start();
     }
 
