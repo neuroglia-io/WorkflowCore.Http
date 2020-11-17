@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using WorkflowCore.Http.Services;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
@@ -22,9 +23,11 @@ namespace WorkflowCore.Http.Primitives
         /// Initializes a new <see cref="SendHttpRequest"/>
         /// </summary>
         /// <param name="httpClientFactory">The service used to create <see cref="System.Net.Http.HttpClient"/>s</param>
-        public SendHttpRequest(IHttpClientFactory httpClientFactory)
+        /// <param name="httpResponseParser">The service used to parse <see cref="HttpResponseMessage"/>s</param>
+        public SendHttpRequest(IHttpClientFactory httpClientFactory, IHttpResponseParser httpResponseParser)
         {
             this.HttpClient = httpClientFactory.CreateClient();
+            this.HttpResponseParser = httpResponseParser;
             this.EnsureSuccessStatusCode = true;
         }
 
@@ -32,6 +35,11 @@ namespace WorkflowCore.Http.Primitives
         /// Gets the <see cref="System.Net.Http.HttpClient"/> used to send <see cref="HttpRequestMessage"/>s
         /// </summary>
         protected HttpClient HttpClient { get; }
+
+        /// <summary>
+        /// Gets the service used to parse <see cref="HttpResponseMessage"/>s
+        /// </summary>
+        protected IHttpResponseParser HttpResponseParser { get; }
 
         /// <summary>
         /// Gets/sets the <see cref="HttpMethod"/> of the <see cref="HttpRequestMessage"/> to send
@@ -59,9 +67,19 @@ namespace WorkflowCore.Http.Primitives
         public AsyncRetryPolicy RetryPolicy { get; set; }
 
         /// <summary>
-        /// Gets/sets a boolean indicating whether or not to ensure that the response to the request has a success status code
+        /// Gets/sets a boolean indicating whether or not to ensure that the response to the request has a success status code. Defaults to true.
         /// </summary>
         public bool EnsureSuccessStatusCode { get; set; }
+
+        /// <summary>
+        /// Gets/sets a boolean indicating whether or not to parse the resulting <see cref="HttpResponseMessage"/>. Defaults to false.
+        /// </summary>
+        public bool ParseResponse { get; set; }
+
+        /// <summary>
+        /// Gets an object that describes the resulting <see cref="HttpResponseMessage"/>
+        /// </summary>
+        public IHttpResponseDescriptor Response { get; set; }
 
         /// <inheritdoc/>
         public override async Task<ExecutionResult> RunAsync(IStepExecutionContext context)
@@ -86,6 +104,8 @@ namespace WorkflowCore.Http.Primitives
                 request.Content = await this.Content?.CloneAsync();
                 using (HttpResponseMessage response = await this.HttpClient.SendAsync(request))
                 {
+                    if(this.ParseResponse)
+                        this.Response = await this.HttpResponseParser.ParseAsync(response);
                     if (this.EnsureSuccessStatusCode)
                         response.EnsureSuccessStatusCode();
                     return (int)response.StatusCode;

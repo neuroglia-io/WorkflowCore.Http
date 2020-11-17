@@ -2,8 +2,9 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace WorkflowCore.Http.Primitives
+namespace WorkflowCore.Http
 {
+
     /// <summary>
     /// Defines extensions for <see cref="HttpContent"/>s
     /// </summary>

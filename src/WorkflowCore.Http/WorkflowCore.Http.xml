@@ -4,6 +4,38 @@
         <name>WorkflowCore.Http</name>
     </assembly>
     <members>
+        <member name="T:WorkflowCore.Http.HttpContentExtensions">
+            <summary>
+            Defines extensions for <see cref="T:System.Net.Http.HttpContent"/>s
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.HttpContentExtensions.CloneAsync(System.Net.Http.HttpContent)">
+            <summary>
+            Clones the <see cref="T:System.Net.Http.HttpContent"/>
+            </summary>
+            <param name="source">The <see cref="T:System.Net.Http.HttpContent"/> to clone</param>
+            <returns>A new clone of the <see cref="T:System.Net.Http.HttpContent"/></returns>
+        </member>
+        <member name="T:WorkflowCore.Http.HttpWorkflowOptions">
+            <summary>
+            Represents the options used to configure http workflows
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.HttpWorkflowOptions.#ctor">
+            <summary>
+            Initializes a new <see cref="T:WorkflowCore.Http.HttpWorkflowOptions"/>
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.HttpWorkflowOptions.ResponseParserType">
+            <summary>
+            Gets/sets the type of <see cref="T:WorkflowCore.Http.Services.IHttpResponseParser"/> to use
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.HttpWorkflowOptions.ResponseContentParserTypes">
+            <summary>
+            Gets/sets a <see cref="T:System.Collections.Generic.List`1"/> containing the types of the <see cref="T:WorkflowCore.Http.Services.IHttpResponseContentParser"/> to use
+            </summary>
+        </member>
         <member name="T:WorkflowCore.Http.IApplicationBuilderExtensions">
             <summary>
             Defines extensions for <see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/>s
@@ -21,24 +53,13 @@
             Defines extensions for <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>s
             </summary>
         </member>
-        <member name="M:WorkflowCore.Http.IServiceCollectionExtensions.AddHttpWorkflow(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:WorkflowCore.Http.IServiceCollectionExtensions.AddHttpWorkflow(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{WorkflowCore.Http.Services.IHttpWorkflowOptionsBuilder})">
             <summary>
             Adds and configures all http services for the WorkflowCore workflow engine
             </summary>
             <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> to configure</param>
+            <param name="configurationAction">An <see cref="T:System.Action`1"/> used to configure http workflows</param>
             <returns>The configured <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/></returns>
-        </member>
-        <member name="T:WorkflowCore.Http.Primitives.HttpContentExtensions">
-            <summary>
-            Defines extensions for <see cref="T:System.Net.Http.HttpContent"/>s
-            </summary>
-        </member>
-        <member name="M:WorkflowCore.Http.Primitives.HttpContentExtensions.CloneAsync(System.Net.Http.HttpContent)">
-            <summary>
-            Clones the <see cref="T:System.Net.Http.HttpContent"/>
-            </summary>
-            <param name="source">The <see cref="T:System.Net.Http.HttpContent"/> to clone</param>
-            <returns>A new clone of the <see cref="T:System.Net.Http.HttpContent"/></returns>
         </member>
         <member name="T:WorkflowCore.Http.Primitives.HttpRequestAwaiter">
             <summary>
@@ -83,6 +104,33 @@
         <member name="M:WorkflowCore.Http.Primitives.HttpRequestAwaiter.Dispose">
             <inheritdoc/>
         </member>
+        <member name="T:WorkflowCore.Http.Primitives.HttpResponseDescriptor">
+            <summary>
+            Represents the object used to describe an <see cref="T:System.Net.Http.HttpResponseMessage"/>
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Primitives.HttpResponseDescriptor.#ctor">
+            <summary>
+            Initializes a new <see cref="T:WorkflowCore.Http.Primitives.HttpResponseDescriptor"/>
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Primitives.HttpResponseDescriptor.#ctor(System.Net.HttpStatusCode,System.Collections.Generic.IDictionary{System.String,System.Collections.Generic.IEnumerable{System.String}},System.Object)">
+            <summary>
+            Initializes a new <see cref="T:WorkflowCore.Http.Primitives.HttpResponseDescriptor"/>
+            </summary>
+            <param name="statusCode">The <see cref="T:System.Net.Http.HttpResponseMessage"/>'s <see cref="T:System.Net.HttpStatusCode"/></param>
+            <param name="headers">An <see cref="T:System.Collections.Generic.IDictionary`2"/> containing the <see cref="T:System.Net.Http.HttpResponseMessage"/>'s headers</param>
+            <param name="content">The <see cref="T:System.Net.Http.HttpResponseMessage"/>'s content</param>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.HttpResponseDescriptor.StatusCode">
+            <inheritdoc/>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.HttpResponseDescriptor.Headers">
+            <inheritdoc/>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.HttpResponseDescriptor.Content">
+            <inheritdoc/>
+        </member>
         <member name="T:WorkflowCore.Http.Primitives.IHttpRequestAwaiter">
             <summary>
             Defines the fundamentals of an object used to await an <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/>
@@ -125,6 +173,26 @@
             Sets the awaited <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/>, thus completing the associated <see cref="T:WorkflowCore.Http.Primitives.ReceiveHttpRequest"/> step
             </summary>
             <param name="request">The received <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/></param>
+        </member>
+        <member name="T:WorkflowCore.Http.Primitives.IHttpResponseDescriptor">
+            <summary>
+            Defines the fundamentals of an object used to describe an <see cref="T:System.Net.Http.HttpResponseMessage"/>
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.IHttpResponseDescriptor.StatusCode">
+            <summary>
+            Gets the <see cref="T:System.Net.Http.HttpResponseMessage"/>'s <see cref="T:System.Net.HttpStatusCode"/>
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.IHttpResponseDescriptor.Headers">
+            <summary>
+            Gets an <see cref="T:System.Collections.Generic.IDictionary`2"/> containing the <see cref="T:System.Net.Http.HttpResponseMessage"/>'s headers 
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.IHttpResponseDescriptor.Content">
+            <summary>
+            Gets the <see cref="T:System.Net.Http.HttpResponseMessage"/>'s content
+            </summary>
         </member>
         <member name="T:WorkflowCore.Http.Primitives.ReceiveHttpRequest">
             <summary>
@@ -175,15 +243,21 @@
             Represents an <see cref="T:WorkflowCore.Interface.IStepBody"/> used to send an <see cref="T:System.Net.Http.HttpRequestMessage"/>
             </summary>
         </member>
-        <member name="M:WorkflowCore.Http.Primitives.SendHttpRequest.#ctor(System.Net.Http.IHttpClientFactory)">
+        <member name="M:WorkflowCore.Http.Primitives.SendHttpRequest.#ctor(System.Net.Http.IHttpClientFactory,WorkflowCore.Http.Services.IHttpResponseParser)">
             <summary>
             Initializes a new <see cref="T:WorkflowCore.Http.Primitives.SendHttpRequest"/>
             </summary>
             <param name="httpClientFactory">The service used to create <see cref="T:System.Net.Http.HttpClient"/>s</param>
+            <param name="httpResponseParser">The service used to parse <see cref="T:System.Net.Http.HttpResponseMessage"/>s</param>
         </member>
         <member name="P:WorkflowCore.Http.Primitives.SendHttpRequest.HttpClient">
             <summary>
             Gets the <see cref="T:System.Net.Http.HttpClient"/> used to send <see cref="T:System.Net.Http.HttpRequestMessage"/>s
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.SendHttpRequest.HttpResponseParser">
+            <summary>
+            Gets the service used to parse <see cref="T:System.Net.Http.HttpResponseMessage"/>s
             </summary>
         </member>
         <member name="P:WorkflowCore.Http.Primitives.SendHttpRequest.Method">
@@ -213,7 +287,17 @@
         </member>
         <member name="P:WorkflowCore.Http.Primitives.SendHttpRequest.EnsureSuccessStatusCode">
             <summary>
-            Gets/sets a boolean indicating whether or not to ensure that the response to the request has a success status code
+            Gets/sets a boolean indicating whether or not to ensure that the response to the request has a success status code. Defaults to true.
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.SendHttpRequest.ParseResponse">
+            <summary>
+            Gets/sets a boolean indicating whether or not to parse the resulting <see cref="T:System.Net.Http.HttpResponseMessage"/>. Defaults to false.
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Primitives.SendHttpRequest.Response">
+            <summary>
+            Gets an object that describes the resulting <see cref="T:System.Net.Http.HttpResponseMessage"/>
             </summary>
         </member>
         <member name="M:WorkflowCore.Http.Primitives.SendHttpRequest.RunAsync(WorkflowCore.Interface.IStepExecutionContext)">
@@ -229,6 +313,17 @@
             <summary>
             Disposes of the <see cref="T:WorkflowCore.Http.Primitives.SendHttpRequest"/>
             </summary>
+        </member>
+        <member name="T:WorkflowCore.Http.Services.DefaultHttpResponseContentParser">
+            <summary>
+            Represents the default implementation of the <see cref="T:WorkflowCore.Http.Services.IHttpResponseContentParser"/>
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.DefaultHttpResponseContentParser.CanParse(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.DefaultHttpResponseContentParser.ParseAsync(System.Net.Http.HttpResponseMessage,System.Threading.CancellationToken)">
+            <inheritdoc/>
         </member>
         <member name="T:WorkflowCore.Http.Services.HttpRequestAwaiterManager">
             <summary>
@@ -285,6 +380,64 @@
         <member name="M:WorkflowCore.Http.Services.HttpRequestCorrelationIdResolver.Resolve(Microsoft.AspNetCore.Http.HttpRequest)">
             <inheritdoc/>
         </member>
+        <member name="T:WorkflowCore.Http.Services.HttpResponseParser">
+            <summary>
+            Represents the default implementation of the <see cref="T:WorkflowCore.Http.Services.IHttpResponseParser"/> interface
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.HttpResponseParser.#ctor(Microsoft.Extensions.Logging.ILogger{WorkflowCore.Http.Services.HttpResponseParser},System.Collections.Generic.IEnumerable{WorkflowCore.Http.Services.IHttpResponseContentParser})">
+            <summary>
+            Initializes a new <see cref="T:WorkflowCore.Http.Services.HttpResponseParser"/>
+            </summary>
+            <param name="logger">The service used to perform logging</param>
+            <param name="contentParsers">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing all available <see cref="T:WorkflowCore.Http.Services.IHttpResponseContentParser"/>s</param>
+        </member>
+        <member name="P:WorkflowCore.Http.Services.HttpResponseParser.Logger">
+            <summary>
+            Gets the service used to perform logging
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Services.HttpResponseParser.ContentParsers">
+            <summary>
+            Gets an <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing all available <see cref="T:WorkflowCore.Http.Services.IHttpResponseContentParser"/>s
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.HttpResponseParser.ParseAsync(System.Net.Http.HttpResponseMessage,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="T:WorkflowCore.Http.Services.HttpWorkflowOptionsBuilder">
+            <summary>
+            Represents the default implementation of the <see cref="T:WorkflowCore.Http.Services.IHttpWorkflowOptionsBuilder"/> interface
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.HttpWorkflowOptionsBuilder.#ctor(WorkflowCore.Http.HttpWorkflowOptions)">
+            <summary>
+            Initializes a new <see cref="T:WorkflowCore.Http.Services.HttpWorkflowOptionsBuilder"/>
+            </summary>
+            <param name="options">The <see cref="T:WorkflowCore.Http.HttpWorkflowOptions"/> to configure</param>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.HttpWorkflowOptionsBuilder.#ctor">
+            <summary>
+            Initializes a new <see cref="T:WorkflowCore.Http.Services.HttpWorkflowOptionsBuilder"/>
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Services.HttpWorkflowOptionsBuilder.Options">
+            <summary>
+            Gets the <see cref="T:WorkflowCore.Http.HttpWorkflowOptions"/> to configure
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.HttpWorkflowOptionsBuilder.UseHttpResponseParser``1">
+            <inheritdoc/>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.HttpWorkflowOptionsBuilder.AddHttpResponseContentParser``1">
+            <inheritdoc/>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.HttpWorkflowOptionsBuilder.ClearHttpResponseContentParsers">
+            <inheritdoc/>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.HttpWorkflowOptionsBuilder.Build">
+            <inheritdoc/>
+        </member>
         <member name="T:WorkflowCore.Http.Services.IHttpRequestAwaiterManager">
             <summary>
             Defines the fundamentals of a service used to manage <see cref="T:WorkflowCore.Http.Primitives.IHttpRequestAwaiter"/>s
@@ -318,6 +471,87 @@
             </summary>
             <param name="request">The <see cref="T:Microsoft.AspNetCore.Http.HttpRequest"/> to resolve the correlation id from</param>
             <returns>The resolved correlation id</returns>
+        </member>
+        <member name="T:WorkflowCore.Http.Services.IHttpResponseContentParser">
+            <summary>
+            Defines the fundamentals of a service used to parse the content of <see cref="T:System.Net.Http.HttpResponseMessage"/>s
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.IHttpResponseContentParser.CanParse(System.String)">
+            <summary>
+            Determines whether or not the <see cref="T:WorkflowCore.Http.Services.IHttpResponseContentParser"/> can parse the specified content type
+            </summary>
+            <param name="contentType">The content type to parse</param>
+            <returns>A boolean indicating whether or not the <see cref="T:WorkflowCore.Http.Services.IHttpResponseContentParser"/> can parse the specified content type</returns>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.IHttpResponseContentParser.ParseAsync(System.Net.Http.HttpResponseMessage,System.Threading.CancellationToken)">
+            <summary>
+            Parses the content of the specified <see cref="T:System.Net.Http.HttpResponseMessage"/>
+            </summary>
+            <param name="httpResponse">The <see cref="T:System.Net.Http.HttpResponseMessage"/> to parse the content of</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/></param>
+            <returns>The parsed content</returns>
+        </member>
+        <member name="T:WorkflowCore.Http.Services.IHttpResponseParser">
+            <summary>
+            Defines the fundamentals of a service used to parse <see cref="T:System.Net.Http.HttpResponseMessage"/>s
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.IHttpResponseParser.ParseAsync(System.Net.Http.HttpResponseMessage,System.Threading.CancellationToken)">
+            <summary>
+            Parses the specified <see cref="T:System.Net.Http.HttpResponseMessage"/>
+            </summary>
+            <param name="httpResponse">The <see cref="T:System.Net.Http.HttpResponseMessage"/> to parse</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken"/></param>
+            <returns>A new <see cref="T:WorkflowCore.Http.Primitives.IHttpResponseDescriptor"/> describing the specified <see cref="T:System.Net.Http.HttpResponseMessage"/></returns>
+        </member>
+        <member name="T:WorkflowCore.Http.Services.IHttpWorkflowOptionsBuilder">
+            <summary>
+            Defines the fundamentals of a service used to build the options used to configure http workflows
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.IHttpWorkflowOptionsBuilder.UseHttpResponseParser``1">
+            <summary>
+            Uses the specified <see cref="T:WorkflowCore.Http.Services.IHttpResponseParser"/>
+            </summary>
+            <typeparam name="TParser">The type of <see cref="T:WorkflowCore.Http.Services.IHttpResponseParser"/> to use</typeparam>
+            <returns>The configured <see cref="T:WorkflowCore.Http.Services.IHttpWorkflowOptionsBuilder"/></returns>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.IHttpWorkflowOptionsBuilder.ClearHttpResponseContentParsers">
+            <summary>
+            Removes all configured <see cref="T:WorkflowCore.Http.Services.IHttpResponseContentParser"/>s
+            </summary>
+            <returns>The configured <see cref="T:WorkflowCore.Http.Services.IHttpWorkflowOptionsBuilder"/></returns>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.IHttpWorkflowOptionsBuilder.AddHttpResponseContentParser``1">
+            <summary>
+            Adds the specified <see cref="T:WorkflowCore.Http.Services.IHttpResponseContentParser"/><para></para>
+            The order in which <see cref="T:WorkflowCore.Http.Services.IHttpResponseContentParser"/>s are added defines their priority
+            </summary>
+            <typeparam name="TParser">The type of <see cref="T:WorkflowCore.Http.Services.IHttpResponseContentParser"/> to add</typeparam>
+            <returns>The configured <see cref="T:WorkflowCore.Http.Services.IHttpWorkflowOptionsBuilder"/></returns>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.IHttpWorkflowOptionsBuilder.Build">
+            <summary>
+            Builds the <see cref="T:WorkflowCore.Http.HttpWorkflowOptions"/>
+            </summary>
+            <returns>A new <see cref="T:WorkflowCore.Http.HttpWorkflowOptions"/></returns>
+        </member>
+        <member name="T:WorkflowCore.Http.Services.JsonHttpResponseContentParser">
+            <summary>
+            Represents an <see cref="T:WorkflowCore.Http.Services.IHttpResponseContentParser"/> implementation used to parse JSON contents
+            </summary>
+        </member>
+        <member name="P:WorkflowCore.Http.Services.JsonHttpResponseContentParser.SupportedContentTypes">
+            <summary>
+            Gets an <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the content types supported by the <see cref="T:WorkflowCore.Http.Services.JsonHttpResponseContentParser"/>
+            </summary>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.JsonHttpResponseContentParser.CanParse(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:WorkflowCore.Http.Services.JsonHttpResponseContentParser.ParseAsync(System.Net.Http.HttpResponseMessage,System.Threading.CancellationToken)">
+            <inheritdoc/>
         </member>
     </members>
 </doc>

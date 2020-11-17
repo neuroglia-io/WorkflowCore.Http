@@ -13,3 +13,9 @@ bin/
 # JetBrains Rider
 .idea/
 *.sln.iml
+/src/WorkflowCore.Http/WorkflowCore.Http.dll
+/src/WorkflowCore.Http/WorkflowCore.dll
+/src/WorkflowCore.Http/System.Linq.Dynamic.Core.dll
+/src/WorkflowCore.Http/Polly.dll
+/src/WorkflowCore.Http/Newtonsoft.Json.dll
+/src/WorkflowCore.Http/ConcurrentCollections.dll

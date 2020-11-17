@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <OutputType>Library</OutputType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -13,18 +13,19 @@
     <RepositoryUrl>https://github.com/neuroglia-io/WorkflowCore.Http</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <NeutralLanguage>en</NeutralLanguage>
-    <Description>.NET CORE 3.1 library that defines HTTP workflow steps for the WorkflowCore workflow engine</Description>
+    <Description>.NET 5 library that defines HTTP workflow steps for the WorkflowCore workflow engine</Description>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup>
     <DocumentationFile>WorkflowCore.Http.xml</DocumentationFile>
     <IsPackable>true</IsPackable>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Polly" Version="7.2.1" />
-    <PackageReference Include="WorkflowCore" Version="3.2.6" />
+    <PackageReference Include="WorkflowCore" Version="3.3.0" />
   </ItemGroup>
 
   <ItemGroup>
